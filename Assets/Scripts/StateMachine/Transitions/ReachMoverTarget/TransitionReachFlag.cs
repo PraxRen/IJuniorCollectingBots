@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class TransitionReachResourceItem : TransitionReachMoverTarget
+public class TransitionReachFlag : TransitionReachMoverTarget
 {
     private Employee _employee;
 
@@ -18,6 +21,6 @@ public class TransitionReachResourceItem : TransitionReachMoverTarget
 
     protected override bool CanTransit()
     {
-        return Mover.Target == (IMoverTarget)_employee.CurrentResourceItem;
+        return Mover.Target == (IMoverTarget)_employee.Flag;
     }
 }

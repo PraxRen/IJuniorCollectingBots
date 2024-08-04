@@ -19,7 +19,7 @@ public class TransitionReachPointPickUp : TransitionReachMoverTarget
 
     protected override bool CanTransit()
     {
-        bool result = Mover.Target == _employee.TargetItem.PointPickUp;
+        bool result = Mover.Target == _employee.CurrentResourceItem.PointPickUp;
         return result;
     }
 }

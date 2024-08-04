@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StorageSettlementResources : MonoBehaviour
@@ -15,6 +17,8 @@ public class StorageSettlementResources : MonoBehaviour
     private WaitForSeconds _waitFindResource;
     private Vector3[,,] _hashPositions;
     private Vector3 _indexesPositions = new Vector3(0, 0, 0);
+
+    public int Count => _storage.Count;
 
     private void Awake()
     {
@@ -34,6 +38,25 @@ public class StorageSettlementResources : MonoBehaviour
             StopCoroutine(_jobFindResource);
             _jobFindResource = null;
         }
+    }
+
+    public void RemoveResources(int count)
+    {
+        ResourceItem[] resources = transform.GetComponentsInChildren<ResourceItem>();
+
+        if (resources.Length < count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(resources));
+        }
+
+        IEnumerable<ResourceItem> lastResources = resources.TakeLast(count);
+
+        foreach (ResourceItem item in lastResources) 
+        {
+            _storage.RemoveLastItem();
+            item.Destroy();
+            ReduceIndexesPositions();
+        } 
     }
 
     private IEnumerator FindResource()
@@ -72,6 +95,13 @@ public class StorageSettlementResources : MonoBehaviour
     private Vector3 GetPosition()
     {
         Vector3 newPosition = _hashPositions[(int)_indexesPositions.x, (int)_indexesPositions.y, (int)_indexesPositions.z];
+        IncreaseIndexesPositions();
+
+        return newPosition;
+    }
+
+    private void IncreaseIndexesPositions()
+    {
         _indexesPositions.x++;
 
         if (_indexesPositions.x > _hashPositions.GetLength(0) - 1)
@@ -92,8 +122,29 @@ public class StorageSettlementResources : MonoBehaviour
                 }
             }
         }
+    }
 
-        return newPosition;
+    private void ReduceIndexesPositions()
+    {
+        _indexesPositions.x--;
+
+        if (_indexesPositions.x < 0)
+        {
+            _indexesPositions.x = _hashPositions.GetLength(0) - 1;
+            _indexesPositions.z--;
+
+            if (_indexesPositions.z < 0)
+            {
+                _indexesPositions.z = _hashPositions.GetLength(2) - 1;
+                _indexesPositions.y--;
+
+                if (_indexesPositions.y < 0)
+                {
+                    _indexesPositions.y = 0;
+                    Debug.LogWarning("Внимание! Замечана попытка уменьшить минимальное значение хэш-таблицы позиций ресурсов!");
+                }
+            }
+        }
     }
 
     private void CalculatePositions()

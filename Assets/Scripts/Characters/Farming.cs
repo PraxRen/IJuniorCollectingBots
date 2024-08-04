@@ -10,14 +10,14 @@ public class Farming : MonoBehaviour
 
     public void Run()
     {
-        _mover.LookAtTargetItem(_employee.TargetItem.Position);
-        _activatorTool.Activate(_employee.TargetItem);
+        _mover.LookAtTargetItem(_employee.CurrentResourceItem.Position);
+        _activatorTool.Activate(_employee.CurrentResourceItem);
         _animator.SetBool(CharacterAnimatorData.Params.IsFarm, true);
     }
 
     public void Cancel()
     {
-        _activatorTool.Deactivate(_employee.TargetItem);
+        _activatorTool.Deactivate(_employee.CurrentResourceItem);
         _animator.SetBool(CharacterAnimatorData.Params.IsFarm, false);
     }
 }

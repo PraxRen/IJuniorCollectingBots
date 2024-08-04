@@ -16,18 +16,18 @@ public class TransitionListenerStartProcessResourceItem : Transition
 
     protected override void ActivateAddon()
     {
-        if (_employee.TargetItem.IsStartedProcess)
+        if (_employee.CurrentResourceItem.IsStartedProcess)
         {
-            OnStartProcess(_employee.TargetItem);
+            OnStartProcess(_employee.CurrentResourceItem);
             return;
         }
 
-        _employee.TargetItem.StartProcess += OnStartProcess;
+        _employee.CurrentResourceItem.StartProcess += OnStartProcess;
     }
 
     protected override void DeactivateAddon()
     {
-        _employee.TargetItem.StartProcess -= OnStartProcess;
+        _employee.CurrentResourceItem.StartProcess -= OnStartProcess;
     }
 
     private void OnStartProcess(ResourceItem item)

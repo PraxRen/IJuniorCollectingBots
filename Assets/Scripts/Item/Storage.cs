@@ -16,17 +16,9 @@ public class Storage : MonoBehaviour
         Changed?.Invoke();
     }
 
-    public void RemoveItem(Item item) 
+    public void RemoveLastItem() 
     {
-        _items.Remove(item);
-    }
-
-    public IEnumerable<Item> GiveFullItem()
-    {
-        foreach (Item item in _items.ToArray()) 
-        {
-            RemoveItem(item);
-            yield return item;
-        }
+        _items.Remove(_items[_items.Count - 1]);
+        Changed?.Invoke();
     }
 }

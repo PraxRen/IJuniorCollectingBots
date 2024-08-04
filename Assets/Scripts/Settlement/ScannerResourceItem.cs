@@ -73,7 +73,8 @@ public class ScannerResourceItem : MonoBehaviour
                 continue;
             }
 
-            resourceItem.StartProcess += OnProcessed;
+            resourceItem.StartProcess += RemoveResourceItem;
+            resourceItem.Destroyed += RemoveResourceItem;
             _foundResourceItems.Add(resourceItem);
         }
     }
@@ -83,9 +84,10 @@ public class ScannerResourceItem : MonoBehaviour
         _radiusFindItems = Mathf.Clamp(_radiusFindItems + _stepRadiusFindItems, _minRadiusFindItems, _maxRadiusFindItems);
     }
 
-    private void OnProcessed(ResourceItem resourceItem)
+    private void RemoveResourceItem(ResourceItem resourceItem)
     {
-        resourceItem.StartProcess -= OnProcessed;
+        resourceItem.StartProcess -= RemoveResourceItem;
+        resourceItem.Destroyed -= RemoveResourceItem;
         _foundResourceItems.Remove(resourceItem);
     }
 

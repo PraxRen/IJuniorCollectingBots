@@ -16,18 +16,18 @@ public class TransitionListenerProcessedResourceItem : Transition
 
     protected override void ActivateAddon()
     {
-        if (_employee.TargetItem.IsProcessed)
+        if (_employee.CurrentResourceItem.IsProcessed)
         {
-            OnProcessed(_employee.TargetItem);
+            OnProcessed(_employee.CurrentResourceItem);
             return;
         }
 
-        _employee.TargetItem.Processed += OnProcessed;
+        _employee.CurrentResourceItem.Processed += OnProcessed;
     }
 
     protected override void DeactivateAddon()
     {
-        _employee.TargetItem.Processed -= OnProcessed;
+        _employee.CurrentResourceItem.Processed -= OnProcessed;
     }
 
     private void OnProcessed(ResourceItem item)

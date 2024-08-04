@@ -18,6 +18,7 @@ public class ResourceItem : Item, IPickUpItem, IDropItem
 
     public event Action<ResourceItem> StartProcess;
     public event Action<ResourceItem> Processed;
+    public event Action<ResourceItem> Destroyed;
 
     public bool IsStartedProcess { get; private set; }
     public bool IsProcessed { get; private set; }
@@ -58,6 +59,12 @@ public class ResourceItem : Item, IPickUpItem, IDropItem
     {
         DisableKinematic();
         StartCoroutine(WaitEnableKinematic(null));
+    }
+
+    public void Destroy()
+    {
+        Destroyed?.Invoke(this);
+        Destroy(gameObject);
     }
 
     private void Process()

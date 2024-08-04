@@ -1,6 +1,6 @@
 using System;
 
-public class TransitionEmployeeChangedTargetItem : Transition
+public class TransitionEmployeeChangedSettlement : Transition
 {
     private Employee _employee;
 
@@ -16,11 +16,11 @@ public class TransitionEmployeeChangedTargetItem : Transition
 
     protected override void ActivateAddon()
     {
-        _employee.ChangedTargetResourceItem += SetNeedTransit;        
+        _employee.ChangedSettlement += SetNeedTransit;
     }
 
-    protected override void DeactivateAddon() 
+    protected override void DeactivateAddon()
     {
-        _employee.ChangedTargetResourceItem -= SetNeedTransit;
+        _employee.ChangedSettlement -= SetNeedTransit;
     }
 }
